@@ -87,9 +87,16 @@ void manage_board(string input_file, string output_file) {
 
 
 int main(int argc, char *argv[]) {
+    /*string inputpath = "C:\\Users\\이시진\\Desktop\\학교\\프방\\프로젝트\\프방 플젝\\middle project\\middle project\\input\\input_0.txt";
+    string outputpath = "C:\\Users\\이시진\\Desktop\\학교\\프방\\프로젝트\\프방 플젝\\middle project\\middle project\\output\\ouput_0.txt";
 
-    if (argc==3) manage_board(string(argv[1]), string(argv[2]));
+    manage_board(inputpath, outputpath);*/
+   
+
+    if (argc == 3) manage_board(string(argv[1]), string(argv[2]));
     else cerr << "Wrong arguments" << endl;
+
+
     
 
     return 0; 

@@ -83,11 +83,15 @@ void Board::print_job(int job_idx, char job_type, int id) {
 }
 
 
-void Board::insert_page(int x, int y, int width, int height, int id, int content) {
+Page page_array[32767];
 
+void Board::insert_page(int x, int y, int width, int height, int id, int content) {
+    Page newpage(x, y, width, height, id, content);
+    page_array[id] = newpage;
 }
 
 void Board::delete_page(int id) {
+
     
 }
 
@@ -99,3 +103,4 @@ void Board::modify_position(int id, int x, int y) {
    
     
 }
+
