@@ -82,12 +82,43 @@ void Board::print_job(int job_idx, char job_type, int id) {
     output << id << endl;
 }
 
+bool check_conflict(int x, int y, int z, int k, int a, int b, int c, int d) {
+    int leftup_a[2] = { x,y };
+    int rightup_a[2] = { x+z,y };
+    int leftdown_a[2] = { x,y+k};
+    int rightdown_a[2] = { x+z,y+k };
+
+    int leftup_b[2] = { a,b };
+    int rightup_b[2] = { a+c,b };
+    int leftdown_b[2] = { a,b+d };
+    int rightdown_b[2] = { a+c,b+d };
+
+    //b가 a안에 들어가는 경우
+    
+    //b가 a안에 안들어가는 경우
+
+}
+
 //page 저장할 page array
 Page page_array[32767];
+int page_counter = 0;
 
 void Board::insert_page(int x, int y, int width, int height, int id, int content) {
-    Page newpage(x, y, width, height, id, content); //page만들기
-    page_array[id] = newpage;
+    Page newpage(x, y, width, height, id, content); //page만들기    
+    
+    //충돌이 난 경우 conflict page에 기록
+    for (int i = 0; i < page_counter; i++)
+    {
+        // check 함수를 통해 겹치는 지 확인
+
+        // 겹치는 결과 반영
+        newpage.input_conflict_page(i);
+    }
+
+    //보드에 내용 넣어주기
+
+   
+    page_array[page_counter++] = newpage;
 }
 
 void Board::delete_page(int id) {
