@@ -82,16 +82,16 @@ void Board::print_job(int job_idx, char job_type, int id) {
     output << id << endl;
 }
 
-
+//page 저장할 page array
 Page page_array[32767];
 
 void Board::insert_page(int x, int y, int width, int height, int id, int content) {
-    Page newpage(x, y, width, height, id, content);
+    Page newpage(x, y, width, height, id, content); //page만들기
     page_array[id] = newpage;
 }
 
 void Board::delete_page(int id) {
-
+    
     
 }
 
