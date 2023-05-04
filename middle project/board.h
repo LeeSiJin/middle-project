@@ -83,19 +83,20 @@ void Board::print_job(int job_idx, char job_type, int id) {
 }
 
 bool check_conflict(int x, int y, int z, int k, int a, int b, int c, int d) {
-    int leftup_a[2] = { x,y };
-    int rightup_a[2] = { x+z,y };
-    int leftdown_a[2] = { x,y+k};
-    int rightdown_a[2] = { x+z,y+k };
+    int leftup_a[2] = { y, x };
+    int rightup_a[2] = { y,x+z };
+    int leftdown_a[2] = { y+k,x};
+    int rightdown_a[2] = { y+k,x+z };
 
-    int leftup_b[2] = { a,b };
-    int rightup_b[2] = { a+c,b };
-    int leftdown_b[2] = { a,b+d };
-    int rightdown_b[2] = { a+c,b+d };
+    int leftup_b[2] = { b,a };
+    int rightup_b[2] = { b, a+c};
+    int leftdown_b[2] = { b+d, a };
+    int rightdown_b[2] = { b+d,a+c };
 
-    //b가 a안에 들어가는 경우
-    
-    //b가 a안에 안들어가는 경우
+    //or 어떻게
+    if (a + c<x ll a>x + z ll b > y + k ll b + d < y) {
+        return true;
+    }
 
 }
 
@@ -110,13 +111,20 @@ void Board::insert_page(int x, int y, int width, int height, int id, int content
     for (int i = 0; i < page_counter; i++)
     {
         // check 함수를 통해 겹치는 지 확인
-
+        check_conflict(page_array[i].getreturnx(), page_array[i].getreturny(), page_array[i].getreturnwidth(), page_array[i].getreturnheight(), x, y, width, height);
         // 겹치는 결과 반영
         newpage.input_conflict_page(i);
     }
 
     //보드에 내용 넣어주기
-
+    for (int i = y; i < y+width; i++)
+    {
+        for (int k = x; k < x+height; k++)
+        {
+            //이거 포인터로 어떻게?
+            board[i][k] = content;
+        }
+    }
    
     page_array[page_counter++] = newpage;
 }

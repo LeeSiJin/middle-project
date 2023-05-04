@@ -4,6 +4,14 @@ class Page {
     public:
         Page(int X, int Y, int Width, int Height, int Id, int Content);
         void input_conflict_page(int i);
+        int getreturnx() { return x; }
+        int getreturny() { return y; }
+        int getreturnwidth() { return width; }
+        int getreturnheight() { return height; }
+        int getreturnid() { return id; }
+        char getreturnchar() { return content; }
+        bool getreturnconflict_page(int i) { return conflict_page[i]; }
+        
     private:
         int x, y; // position of the page on the board
         int width, height; // width and height of the page 
