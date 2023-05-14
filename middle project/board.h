@@ -93,7 +93,7 @@ bool check_conflict(int x, int y, int z, int k, int a, int b, int c, int d) {
     int leftdown_b[2] = { b+d, a };
     int rightdown_b[2] = { b+d,a+c };
 
-    //or 어떻게
+   
     if (a + c<x || a>x + z || b > y + k || b + d < y) {
         return true;    
     }
@@ -118,77 +118,24 @@ void Board::insert_page(int x, int y, int width, int height, int id, int content
         
     }
 
+
+
     //보드에 내용 넣어주기
-    for (int i = y; i < y+width; i++)
-    {
-        for (int k = x; k < x+height; k++)
-        {
-            //이거 포인터로 어떻게?
-            board[i][k] = content;
+    for (int h = y; h < y + height; h++) {
+        for (int w = x; w < x + width; w++) {
+            if (h < this->height && w < this->width) {
+
+                board[h * this->width + w] = content;
+            }
         }
     }
    
     page_array[page_counter++] = newpage;
+    print_board();
 }
 
 void Board::delete_page(int id) {
-    int key;
-    //지워야하는 페이지가 page_array의 몇 번째 인덱스에 있는지 파악
-    for (int i = 0; i < 32767; i++)
-    {
-        if (page_array[i].getreturnid() == id) {
-            key = i;
-        }
-    }
-
-    //해당 페이지가 붙어진 후 붙은 페이지들이 해당 페이지와 겹치는 지 확인 후 삭제
-    for (int k = 32766; k >= key; k++)
-    {
-        if (page_array[k].getreturnconflict_page(key) == true) {
-            //삭제하기
-            for (int i = page_array[k].getreturny(); i < page_array[k].getreturny() + page_array[k].getreturnwidth(); i++)
-            {
-                for (int k = page_array[k].getReturnX(); k < page_array[k].getReturnX() + page_array[k].getreturnheight(); k++)
-                {
-                    //이거 포인터로 어떻게?
-                    board[i][k] = ' ';
-                }
-            }
-            //그 다음으로 true인 index의 page로 board 채우기
-            for (int i = page_array[k].getreturny(); i < page_array[k].getreturny() + page_array[k].getreturnwidth(); i++)
-            {
-                for (int k = page_array[k].getReturnX(); k < page_array[k].getReturnX() + page_array[k].getreturnheight(); k++)
-                {
-                    
-                }
-            }
-
-        }
-        // 보드 출력
-
-    }
     
-
-    //다시 붙이기
-    for (int k = key+1; k <32767; k++)
-    {
-        if (page_array[k].getreturnconflict_page(key) == true) {
-            for (int i = page_array[k].getreturny(); i < page_array[k].getreturny() + page_array[k].getreturnwidth(); i++)
-            {
-                for (int k = page_array[k].getReturnX(); k < page_array[k].getReturnX() + page_array[k].getreturnheight(); k++)
-                {
-                    //이거 포인터로 어떻게?
-                    board[i][k] = page_array[k].getreturncontent();
-                }
-            }
-
-            //보드 출력
-
-        }
-       
-
-    }
-
 }
 
 void Board::modify_content(int id, char content) {
