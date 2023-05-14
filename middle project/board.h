@@ -162,11 +162,20 @@ void Board::insert_page(Page & newpage) {
 	int height = newpage.getreturnheight();
 	int width = newpage.getreturnwidth();
 	char content = newpage.getreturncontent();
-
+	int index;
 	newpage.get_conflictpage().clear();
+	for (int i = 0; i < page_array.size(); i++)
+	{
+		if (newpage.getreturnid() == page_array[i].getreturnid())
+		{
+			index = i;
+			break;
+		}
+	}
+	
 
 	//충돌이 난 경우 conflict page에 기록
-	for (int i = 0; i < page_array.size(); i++)
+	for (int i = 0; i < index; i++)
 	{
 		// check 함수를 통해 겹치는 지 확인
 		if (check_conflict(page_array[i].getReturnX(), page_array[i].getreturny(), page_array[i].getreturnwidth(), page_array[i].getreturnheight(), x, y, width, height == true)) {
@@ -295,7 +304,7 @@ void Board::delete_page(int id) {
 	{
 		// 말 그대로 board에 채워주기만 한다.
 		insert_page(conflictAll[i]);
-		print_board();
+		
 	}
 
 }
@@ -303,11 +312,121 @@ void Board::delete_page(int id) {
 
 
 void Board::modify_content(int id, char content) {
+	Page page = getPageById(id);
+	//가져온 페이지 정보
+	int currentX = page.getReturnX();
+	int currentY = page.getreturny();
+	int width = page.getreturnwidth();
+	int height = page.getreturnheight();
+
+	//겹치는 페이지들 삭제 - by 재귀
+	/*for (int h = currentY; h < currentY + height; h++) {
+		for (int w = currentX; w < currentX + width; w++) {
+			if (board[h * this->width + w] != ' ') {
+				int currentPageId = getPageByContent(board[h * this->width + w]).getreturnid();
+				if (currentPageId != id) {
+					delete_page(currentPageId);
+				}
+			}
+		}
+	}*/
+	int index; // 3th inserted - 땔려고 하는 목표 페이지
+	for (int i = 0; i < page_array.size(); i++)
+	{
+		if (page.getreturnid() == page_array[i].getreturnid())
+		{
+			index = i;
+			break;
+		}
+	}
+	vector<Page> conflictAll;
+	conflictAll.push_back(page);
+
+	for (int i = index + 1; i < page_array.size(); i++)
+	{
+		//만약에 i번째 page가 conflictAll에 있는 페이지와 충돌한다?
+		page_array[i];
+		// => true / conflictAll에 i번째 page를 추가해준다.
+		bool t = false;
+
+		for (int j = 0; j < conflictAll.size(); j++)
+		{
+			for (int w = 0; w < page_array[i].get_conflictpage().size(); w++)
+			{
+				if (conflictAll[j].getreturnid() == page_array[i].get_conflictpage()[w]) {
+					t = true;
+				}
+
+			}
+		}
+
+
+
+
+		if (t == true)
+		{
+
+			conflictAll.push_back(page_array[i]);
+		}
+
+	}
+	// conflictAll에 있는 친구들을 다 때주면 된다.
+	for (int i = conflictAll.size() - 1; i >= 0; i--)
+	{
+
+
+		// 지운 페이지 밑에 어떤 content가 있는지를 알아야. 화면을 출력함.
+		// 1. 지우려는 페이지 A의 영역을 모두 순회한다.
+		// 2. 한 좌표(x, y)에 대해서 겹치는 A 페이지의 conflict_page가 있는지 역순으로 확인한다.
+		// 3. 겹치는 페이지가 있으면 해당 좌표의 content를 conflict_page에 해당하는 content로 채운다.
+		// 4. 겹치는 페이지가 없으면 ' ' 공백으로 채운다.
+		for (int h = conflictAll[i].getreturny(); h < conflictAll[i].getreturny() + conflictAll[i].getreturnheight(); h++) {
+			for (int w = conflictAll[i].getReturnX(); w < conflictAll[i].getReturnX() + conflictAll[i].getreturnwidth(); w++) {
+				bool isModified = false;
+				for (int k = conflictAll[i].get_conflictpage().size() - 1; k >= 0; k--)
+				{
+					int gx = getPageById(conflictAll[i].get_conflictpage()[k]).getReturnX();
+					int gy = getPageById(conflictAll[i].get_conflictpage()[k]).getreturny();
+					int gw = getPageById(conflictAll[i].get_conflictpage()[k]).getreturnwidth();
+					int gh = getPageById(conflictAll[i].get_conflictpage()[k]).getreturnheight();
+
+					int compare_x = w;
+					int compare_y = h;
+
+					if ((compare_x >= gx && compare_x < gx + gw && compare_y >= gy && compare_y < gy + gh) && !isModified) {
+						board[h * this->width + w] = getPageById(conflictAll[i].get_conflictpage()[k]).getreturncontent();
+						isModified = true;
+						break;
+					}
+				}
+				if (!isModified)
+				{
+					board[h * this->width + w] = ' ';
+				}
+
+			}
+		}
+
+		print_board();
+	}
+	//modify 내용 넣어주기
+	page_array[index].setcontent(content);
+	insert_page(page_array[index]);
+
+
+
+	//역으로 다시 붙여주기
+	for (int i = 1; i < conflictAll.size(); i++)
+	{
+		// 말 그대로 board에 채워주기만 한다.
+		insert_page(conflictAll[i]);
 	
+	}
+
 
 }
 void Board::modify_position(int id, int x, int y) {
 
-	print_board();
+	
 }
 

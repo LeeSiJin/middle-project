@@ -15,6 +15,8 @@ class Page {
         int getreturnconflict_page(int i) { return conflict_page[i]; }
         int getCPsize() { return conflict_page.size(); }
         vector<int> get_conflictpage() { return conflict_page; }
+        void setcontent(char cont) { content = cont; }
+
 
     private:
         int x, y; // position of the page on the board
