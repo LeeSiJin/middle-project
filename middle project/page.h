@@ -16,6 +16,9 @@ class Page {
         int getCPsize() { return conflict_page.size(); }
         vector<int> get_conflictpage() { return conflict_page; }
         void setcontent(char cont) { content = cont; }
+        void setx(int newx) { x = newx; }
+        void sety(int newy) { y = newy; }
+        
 
 
     private:
